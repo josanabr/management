@@ -27,6 +27,10 @@ TURNOFFENDPOINT="turnoffws"
 #
 # This command initializes some env variables
 . ${CONDOR_HOME}/condor.sh
+#Delete the tasks that are on hold
+for i in $(condor_q -hold | tr -s ' ' | cut -f2 -d ' ' );do
+condor_rm $i
+done
 # Gets number of jobs pending to be run
 HTCONDORJOBS=`${CONDOR_HOME}/bin/condor_q | tail -1 | cut -d ';' -f 1 | cut -d ' ' -f 1`
 echo "[${HTCONDORJOBS}]" >> ${LOGFILE}
